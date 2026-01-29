@@ -1,0 +1,45 @@
+config:
+  ##### Hedef API (JSONPlaceholder)
+  target: "https://jsonplaceholder.typicode.com"
+  
+  ##### 1. ÖDEV MADDESİ: PHASES
+  phases:
+    - duration: 5          ##### 
+      arrivalRate: 1       ##### Her saniye 1 yeni kullanıcı gelecek
+      name: "Warm up phase"
+
+  ##### 2. ÖDEV MADDESİ: PAYLOAD
+  payload:
+    path: "users.csv"      
+    fields:
+      - "name"             # CSV'deki ilk sütun
+      - "job"              # CSV'deki ikinci sütun
+    order: sequence        # Sırayla oku
+
+  ##### 3. ÖDEV MADDESİ: DOĞRULAMA
+  ensure:
+    thresholds:
+      ##### Metrik 1: İsteklerin %95'i 1500ms altında tamamlanmalı (SLA)
+      - "http.response_time.p95": 1500
+      
+      ##### Metrik 2: En yavaş istek bile 3000ms'yi geçmemeli (SLA)
+      - "http.response_time.max": 3000
+      
+      #### Metrik 3: Hata oranı %1'den az olmalı (SLA)
+      - "vusers.failed": 1
+
+scenarios:
+  - flow:
+      ##### 4. ÖDEV MADDESİ: FLOW  - GET ve POST İstekleri
+      
+      #### Adım 1: GET İsteği
+      - get:
+          url: "/posts"
+      
+      ##### Adım 2: POST İsteği
+      - post:
+          url: "/posts"
+          json:
+            title: "{{ name }}"  # CSV'den gelen isim
+            body: "{{ job }}"    # CSV'den gelen meslek
+            userId: 1
