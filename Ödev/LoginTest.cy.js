@@ -1,6 +1,6 @@
 //////// Sayfaları çağırma
-import { loginPage } from '../pages/Login';
-import { homePage } from '../pages/HomePage';
+import { loginPage } from './pages/Login';
+import { homePage } from './pages/HomePage';
 
 describe('GoIT Login ve Logout Testleri (POP Yapısı)', () => {
 
