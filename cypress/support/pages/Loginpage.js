@@ -8,18 +8,17 @@ class LoginPage {
         forgotPasswordBtn: () => cy.contains('a', 'Şifremi Unuttum'), // AC9
         registerBtn: () => cy.contains('a', 'Kayıt Ol'),      // AC2
         errorMessage: () => cy.get('.popover-item'),           // AC5
-        forgotEmailInput: () => cy.get('#header-email'), // Kitapsepeti mail input ID'si
-        sendResetBtn: () => cy.get('#forgot-password-btn-292') // Kitapsepeti hatırlat butonu ID'si
+        forgotEmailInput: () => cy.get('#header-email'),    // AC9  
+        sendResetBtn: () => cy.get('#forgot-password-btn-292')  // AC9
     }
 
     visit() {
-        cy.visit('/'); //
+        cy.visit('/');
     }
 
     login(email, password) {
     this.elements.loginPanelTrigger().click({ force: true });
     
-    // { force: true } ekleyerek engeli bypass ediyoruz
     if(email) this.elements.emailInput().type(email, { force: true });
     if(password) this.elements.passwordInput().type(password, { force: true });
     
